@@ -1,0 +1,24 @@
+.searchContainer {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    height: 3rem;
+    transition: background-color 0.3s;
+  }
+  
+  .searchContainer:hover {
+    background-color: #cac7c7; /* equivalent to theme.palette.grey[100] */
+  }
+  
+  .searchInput {
+    margin-right: 16px; /* equivalent to theme.spacing(2) */
+  }
+  
+  .iconButton {
+    background-color: #ffffff;
+    color: #777777;
+    padding: 8px;
+  }
+  
+  /* Add more styles as needed */
+  

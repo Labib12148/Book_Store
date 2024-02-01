@@ -1,0 +1,53 @@
+/* SingleBook.css */
+
+.single-book-container {
+  display: flex;
+}
+
+.left-side {
+  flex: 0 0 30%; /* 30% width, don't grow or shrink */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  padding: 20px;
+}
+
+.book-details {
+  font-size: 1.1em; /* Adjust as needed */
+}
+
+.book-image {
+  width: 100%;
+  height: 300px; /* Set a fixed height */
+  object-fit: fill; /* Stretch the image to cover the container */
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.center-side {
+  flex: 0 0 40%; /* 30% width, don't grow or shrink */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  padding: 20px;
+}
+
+.book-title-rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+}
+
+.rating-stars {
+  font-size: 24px;
+  color: gold;
+}
+
+.other-reviews {
+  margin-top: 20px;
+}

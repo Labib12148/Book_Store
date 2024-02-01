@@ -1,0 +1,221 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Button,
+  TextField,
+  Typography,
+  Container,
+  Paper,
+  makeStyles,
+  Snackbar,
+  createTheme,
+  ThemeProvider,
+} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
+import { AccountCircle, Lock } from '@material-ui/icons';
+import { useNavigate } from 'react-router-dom';
+import bannerImage from '../assets/imgs/Banner2.jpg';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#82B8D6',
+    },
+  },
+});
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '90vh',
+    overflow: 'hidden',
+  },
+  image: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 'auto',
+    height: 'auto',
+  },
+  paper: {
+    padding: theme.spacing(4),
+    width: '100%',
+    maxWidth: '400px',
+    backgroundColor: '#DEEFFF',
+    borderRadius: theme.spacing(2),
+    boxShadow: theme.shadows[5],
+    position: 'relative',
+    zIndex: 1,
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: theme.spacing(3),
+  },
+  inputField: {
+    margin: theme.spacing(1, 0),
+  },
+  button: {
+    margin: theme.spacing(2, 0),
+    borderRadius: theme.spacing(2),
+  },
+}));
+
+const Login = () => {
+  const classes = useStyles();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('error');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = async () => {
+    if (!formData.username || !formData.password) {
+      setSnackbarMessage('Username and Password are mandatory fields');
+      setSnackbarSeverity('error');
+      setOpenSnackbar(true);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3001/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const { message, token } = await response.json();
+
+        setSnackbarSeverity('success');
+        setSnackbarMessage(message);
+        setOpenSnackbar(true);
+
+        // Save the token to local storage
+        localStorage.setItem('token', token);
+
+        // Delay navigation to the dashboard after showing the success alert
+        setTimeout(() => {
+          navigate('/home');
+        }, 500);
+      } else {
+        const errorData = await response.json();
+        console.error('Error logging in:', errorData.message);
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Incorrect Username or Password');
+        setOpenSnackbar(true);
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setSnackbarSeverity('error');
+      setSnackbarMessage('Error logging in. Please try again.');
+      setOpenSnackbar(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  useEffect(() => {
+    // Apply overflow: hidden to the body when the component mounts
+    document.body.style.overflow = 'hidden';
+    return () => {
+      // Reset overflow when the component unmounts
+      document.body.style.overflow = 'visible';
+    };
+  }, []);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs" className={classes.root}>
+        <div className={classes.image}>
+          <img src={bannerImage} alt="Banner" className={classes.image} />
+        </div>
+        <Paper className={classes.paper} elevation={3}>
+          <AccountCircle fontSize="large" color="primary" />
+          <Typography component="h1" variant="h5">
+            Login to BOIKHATA
+          </Typography>
+          <form className={classes.form}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              value={formData.username}
+              onChange={handleChange}
+              className={classes.inputField}
+              InputProps={{
+                startAdornment: <AccountCircle />,
+              }}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={formData.password}
+              onChange={handleChange}
+              className={classes.inputField}
+              InputProps={{
+                startAdornment: <Lock />,
+              }}
+            />
+            <Button
+              className={classes.button}
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleLogin}
+            >
+              Log In
+            </Button>
+          </form>
+        </Paper>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={handleCloseSnackbar}
+            severity={snackbarSeverity}
+          >
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
+      </Container>
+    </ThemeProvider>
+  );
+};
+
+export default Login;
