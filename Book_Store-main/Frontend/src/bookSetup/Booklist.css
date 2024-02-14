@@ -1,0 +1,22 @@
+/* Booklist.css */
+
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.book-card {
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.book-card:hover {
+  transform: scale(1.05);
+}
+
+.Navbar{
+  width: 100vw;
+  position: relative;
+}

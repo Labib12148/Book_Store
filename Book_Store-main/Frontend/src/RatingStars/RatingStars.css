@@ -1,0 +1,32 @@
+/* RatingStars.css */
+
+.rating-stars {
+    display: inline-block;
+    position: relative;
+  }
+  
+  /* Style the stars container */
+  .rating-stars .react-stars {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Style the stars individually */
+  .rating-stars .react-stars > svg {
+    width: 20%; /* Adjust as needed */
+    height: auto;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .rating-stars .react-stars > svg {
+      width: 25%; /* Adjust for smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .rating-stars .react-stars > svg {
+      width: 30%; /* Adjust for even smaller screens */
+    }
+  }
+  

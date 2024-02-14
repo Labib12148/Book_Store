@@ -1,0 +1,25 @@
+.rate-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .rate-header {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .rate-stars {
+    margin-bottom: 20px;
+  }
+  
+  .rate-submit {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
